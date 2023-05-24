@@ -1,0 +1,27 @@
+// Importar las clases necesarias
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Obtener una referencia al botón
+        Button button = findViewById(R.id.button);
+
+        // Configurar el listener para el botón
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Acción a realizar cuando se presiona el botón
+                Toast.makeText(getApplicationContext(), "¡Hola, mundo!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
