@@ -1,0 +1,154 @@
+Crea un aplicación que:
+
+Muestre un menú con los 4 lugares más concurridos de la zona donde vives.
+
+ Al seleccionar alguno, la aplicación debe llevarlo a otra pantalla donde se muestre la ubicación de ese lugar.
+
+Utiliza punteros personalizados para señalar el lugar seleccionado.
+
+
+xml:
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecciona un lugar:"
+        android:textSize="18sp"
+        android:layout_margin="16dp" />
+
+    <Spinner
+        android:id="@+id/place_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/places_array" />
+
+    <Button
+        android:id="@+id/view_location_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver ubicación"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
+
+
+XML:
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ubicación del lugar seleccionado:"
+        android:textSize="18sp"
+        android:layout_margin="16dp" />
+
+    <TextView
+        android:id="@+id/location_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
+
+    <ImageView
+        android:id="@+id/map_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/location_text"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>
+
+
+
+Java:
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private Spinner placeSpinner;
+    private Button viewLocationButton;
+
+    private String[] places = {"Lugar 1", "Lugar 2", "Lugar 3", "Lugar 4"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        placeSpinner = findViewById(R.id.place_spinner);
+        viewLocationButton = findViewById(R.id.view_location_button);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, places);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        placeSpinner.setAdapter(adapter);
+
+        viewLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selectedPlace = (String) placeSpinner.getSelectedItem();
+                openMapActivity(selectedPlace);
+            }
+        });
+    }
+
+    private void openMapActivity(String place) {
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra("place", place);
+        startActivity(intent);
+    }
+}
+
+
+Java:
+
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MapActivity extends AppCompatActivity {
+
+    private TextView locationText;
+    private ImageView mapImage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
+
+        locationText = findViewById(R.id.location_text);
+        mapImage = findViewById(R.id.map_image);
+
+        String place = getIntent().getStringExtra("place");
+
+        // Aquí puedes configurar el puntero personalizado en el ImageView del mapa
+
+        locationText.setText(place);
+    }
+}
+
+
