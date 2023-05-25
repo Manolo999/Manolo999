@@ -1,0 +1,77 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+
+# Endpoint para dar like a una foto en Instagram
+@app.route('/instagram/like', methods=['POST'])
+def like_photo():
+    # Obtener los datos de la solicitud
+    id_foto_instagram = request.json['id_foto_instagram']
+    id_usuario_instagram = request.json['id_usuario_instagram']
+    id_dispositivo = request.json['id_dispositivo']
+
+    # Lógica para conectar con el API de Instagram y dar like a la foto
+    # ...
+
+    # Insertar el like en la base de datos
+    # ...
+
+    # Enviar la notificación al dispositivo correspondiente
+    # ...
+
+    return 'Like agregado correctamente'
+
+if __name__ == '__main__':
+    app.run()
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instagram Like</title>
+</head>
+<body>
+  <form id="likeForm" action="/instagram/like" method="POST">
+    <input type="text" name="id_foto_instagram" placeholder="ID de la foto en Instagram"><br>
+    <input type="text" name="id_usuario_instagram" placeholder="ID del usuario de Instagram"><br>
+    <input type="text" name="id_dispositivo" placeholder="ID del dispositivo"><br>
+    <input type="submit" value="Dar Like">
+  </form>
+</body>
+</html>
+
+import static spark.Spark.*;
+
+public class InstagramLikeApp {
+
+    public static void main(String[] args) {
+        port(8080); // Puerto en el que se ejecutará el servidor
+        
+        // Endpoint para dar like a una foto en Instagram
+        post("/instagram/like", (req, res) -> {
+            // Obtener los datos de la solicitud
+            String idFotoInstagram = req.queryParams("id_foto_instagram");
+            String idUsuarioInstagram = req.queryParams("id_usuario_instagram");
+            String idDispositivo = req.queryParams("id_dispositivo");
+            
+            // Lógica para conectar con el API de Instagram y dar like a la foto
+            // ...
+            
+            // Insertar el like en la base de datos
+            // ...
+            
+            // Enviar la notificación al dispositivo correspondiente
+            // ...
+            
+            return "Like agregado correctamente";
+        });
+        
+        // Ruta para mostrar el formulario HTML
+        get("/", (req, res) -> {
+            return new ModelAndView(null, "index.html");
+        }, new MustacheTemplateEngine());
+    }
+
+}
+
+
