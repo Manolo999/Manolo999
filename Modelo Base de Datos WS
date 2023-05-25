@@ -1,0 +1,53 @@
+A continuación, te proporcionaré un ejemplo en Java utilizando la biblioteca OkHttp para realizar la solicitud:
+
+1. Asegúrate de agregar la dependencia de OkHttp en tu archivo build.gradle:
+implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+2.A continuación, puedes utilizar el siguiente código como ejemplo para enviar una solicitud POST al endpoint "/registrar-usuario" en tu servicio web:
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class RegistroUsuarioService {
+    private static final String BASE_URL = "https://tu-app-en-heroku.herokuapp.com";
+    private static final String ENDPOINT_REGISTRAR_USUARIO = "/registrar-usuario";
+
+    public void registrarUsuario(String idDispositivo, String idUsuarioInstagram) {
+        OkHttpClient client = new OkHttpClient();
+
+        // Construir el cuerpo de la solicitud con los parámetros requeridos
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        String requestBody = "{\"id_dispositivo\":\"" + idDispositivo + "\", \"id_usuario_instagram\":\"" + idUsuarioInstagram + "\"}";
+        RequestBody body = RequestBody.create(requestBody, mediaType);
+
+        // Construir la solicitud POST
+        Request request = new Request.Builder()
+                .url(BASE_URL + ENDPOINT_REGISTRAR_USUARIO)
+                .post(body)
+                .build();
+
+        try {
+            // Ejecutar la solicitud y obtener la respuesta
+            Response response = client.newCall(request).execute();
+
+            // Manejar la respuesta según sea necesario
+            if (response.isSuccessful()) {
+                // La solicitud fue exitosa
+                String responseData = response.body().string();
+                // Manejar la respuesta de acuerdo a tus necesidades
+            } else {
+                // La solicitud no fue exitosa
+                // Manejar el error de acuerdo a tus necesidades
+            }
+
+            // Cerrar la respuesta
+            response.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Manejar la excepción de acuerdo a tus necesidades
+        }
+    }
+}
+
+
