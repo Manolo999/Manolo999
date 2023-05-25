@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Push Notification Actions</title>
+</head>
+<body>
+  <button onclick="openProfile()">Ver mi Perfil</button>
+  <button onclick="followUnfollow()">Dar Follow/Unfollow</button>
+  <button onclick="openUser()">Ver Usuario</button>
+
+  <script>
+    function openProfile() {
+      // Lógica para abrir la aplicación del teléfono en la pantalla de inicio
+      // ...
+    }
+
+    function followUnfollow() {
+      // Lógica para realizar el Follow/Unfollow en el servidor
+      // ...
+    }
+
+    function openUser() {
+      // Lógica para abrir una nueva actividad en la aplicación del teléfono para mostrar las fotos del usuario
+      // ...
+    }
+  </script>
+</body>
+</html>
+
+
+import static spark.Spark.*;
+
+public class PushNotificationApp {
+
+    public static void main(String[] args) {
+        port(8080); // Puerto en el que se ejecutará el servidor
+        
+        // Endpoint para realizar el Follow/Unfollow
+        post("/follow-unfollow", (req, res) -> {
+            // Obtener los datos de la solicitud
+            String idUsuarioLiked = req.queryParams("id_usuario_liked");
+            String idUsuarioSeguir = req.queryParams("id_usuario_seguir");
+            
+            // Lógica para realizar el Follow/Unfollow en el servidor
+            // ...
+            
+            return "Acción de Follow/Unfollow realizada correctamente";
+        });
+        
+        // Ruta para mostrar el formulario HTML
+        get("/", (req, res) -> {
+            return new ModelAndView(null, "index.html");
+        }, new MustacheTemplateEngine());
+    }
+
+}
+
